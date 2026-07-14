@@ -1,5 +1,3 @@
-BASEDIR:=$(shell dab basedir)
-
 all: info/init_ok
 	dab bootstrap
 	dab finalize

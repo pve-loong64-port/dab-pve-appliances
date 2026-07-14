@@ -1,7 +1,3 @@
-
-
-BASEDIR:=$(shell dab basedir)
-
 all: info/init_ok
 	dab bootstrap
 	# NOTE: zstd appliances are only supported on PVE >= 7.0, take care on upload!

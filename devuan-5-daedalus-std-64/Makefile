@@ -1,7 +1,3 @@
-
-
-BASEDIR:=$(shell dab basedir)
-
 all: info/init_ok
 	dab bootstrap --minimal
 	dab install devuan-keyring
