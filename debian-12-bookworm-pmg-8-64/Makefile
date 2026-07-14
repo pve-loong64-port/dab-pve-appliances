@@ -1,13 +1,10 @@
-BASEDIR:=$(shell dab basedir)
-
 CVD_FILES:=main.cvd bytecode.cvd daily.cvd safebrowsing.cvd
 
 all: info/init_ok ${CVD_FILES}
 	dab bootstrap --minimal
-	sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin yes/' ${BASEDIR}/etc/ssh/sshd_config
-	mkdir -p ${BASEDIR}/etc/systemd/system-preset
-	cp systemd-presets ${BASEDIR}/etc/systemd/system-preset/00-pve-template.preset
-	touch ${BASEDIR}/proxmox_install_mode
+	dab exec sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+	dab cp systemd-presets /etc/systemd/system-preset/00-pve-template.preset
+	dab exec touch /proxmox_install_mode
 	dab install \
 	    antiword \
 	    dbus \
@@ -24,9 +21,9 @@ all: info/init_ok ${CVD_FILES}
 	    tesseract-ocr \
 	    unrtf \
 	    ;
-	rm ${BASEDIR}/proxmox_install_mode
-	sed -i '/^deb.*\.proxmox\.com\/.*$$/d;$${/^$$/d;}' ${BASEDIR}/etc/apt/sources.list
-	cp ${CVD_FILES} ${BASEDIR}/var/lib/clamav/
+	dab exec rm /proxmox_install_mode
+	dab exec sed -i '/^deb.*\.proxmox\.com\/.*$$/d;$${/^$$/d;}' /etc/apt/sources.list
+	for f in ${CVD_FILES}; do dab cp $$f /var/lib/clamav/$$f; done
 	dab finalize --compressor zstd-max
 
 info/init_ok: dab.conf

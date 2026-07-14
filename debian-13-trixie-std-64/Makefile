@@ -1,11 +1,8 @@
-
-
-BASEDIR:=$(shell dab basedir)
-
 all: info/init_ok
 	dab bootstrap
-	mkdir -p $(BASEDIR)/etc/systemd/system-preset
-	echo "disable systemd-networkd-wait-online.service" >$(BASEDIR)/etc/systemd/system-preset/00-pve-template.preset
+	echo "disable systemd-networkd-wait-online.service" >00-pve-template.preset
+	dab cp 00-pve-template.preset /etc/systemd/system-preset/00-pve-template.preset
+	rm 00-pve-template.preset
 	dab install \
 	    ifupdown2 \
 	    isc-dhcp-client \
