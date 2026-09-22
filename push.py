@@ -7,7 +7,7 @@ from pathlib import Path
 from debian.deb822 import Deb822
 
 REPO_PATH = Path("/home/build/repo/")
-IMAGES_PATH = REPO_PATH / "images" / "system"
+IMAGES_PATH = REPO_PATH / "images" / sys.argv[2]
 
 with open("dab.conf") as f:
     dab_conf = Deb822(f)
@@ -28,10 +28,10 @@ aplinfo_str = """Package: {Name}
 Version: {Version}
 Type: lxc
 OS: """ + sys.argv[1] + """
-Section: system
+Section: {Section}
 Maintainer: {Maintainer}
 Architecture: {Architecture}
-Location: system/""" + tarball + """
+Location: {Section}/""" + tarball + """
 md5sum: """ + md5sum + """
 sha512sum: """ + sha512sum + """
 Infopage: {Infopage}
